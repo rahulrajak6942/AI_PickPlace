@@ -1,9 +1,0 @@
-/home/rahul/yolo_detect/yolo_ws/build/detection/CMakeFiles/uninstall.dir
-/home/rahul/yolo_detect/yolo_ws/build/detection/CMakeFiles/detection_uninstall.dir
-/home/rahul/yolo_detect/yolo_ws/build/detection/CMakeFiles/test.dir
-/home/rahul/yolo_detect/yolo_ws/build/detection/CMakeFiles/edit_cache.dir
-/home/rahul/yolo_detect/yolo_ws/build/detection/CMakeFiles/rebuild_cache.dir
-/home/rahul/yolo_detect/yolo_ws/build/detection/CMakeFiles/list_install_components.dir
-/home/rahul/yolo_detect/yolo_ws/build/detection/CMakeFiles/install.dir
-/home/rahul/yolo_detect/yolo_ws/build/detection/CMakeFiles/install/local.dir
-/home/rahul/yolo_detect/yolo_ws/build/detection/CMakeFiles/install/strip.dir
