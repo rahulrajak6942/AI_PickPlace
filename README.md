@@ -1,14 +1,23 @@
-Perfect 👌 since you already pushed the videos, let’s prepare a **well-structured `README.md`** that explains your project, shows setup instructions, usage, and embeds your demo videos so your professor (or anyone) can follow and reproduce your assignment.
-
-Here’s a draft for your repo:
 
 ---
 
 # 🤖 AI Pick & Place with YOLO + OpenManipulator-X
 
-This project integrates **YOLO-based color detection** with the **OpenManipulator-X robotic arm** in Gazebo and MoveIt2 to perform an autonomous **pick and place** task.
+This project integrates **YOLO-based object detection** with the **OpenManipulator-X** robotic arm in Gazebo + MoveIt2 to perform **autonomous pick and place** of colored cylinders.
 
-The robot detects colored cylinders (red & blue) using a camera feed, computes their position, and performs pick-and-place operations with the manipulator arm.
+It was developed as part of my **AI Robotics Integration assignment**.
+
+---
+
+## 📹 Demo
+
+### MoveIt + Planning Scene
+
+<img src="moveit_demo.gif" width="600"/>
+
+### Autonomous Pick & Place
+
+<img src="pick_place.gif" width="600"/>
 
 ---
 
@@ -16,63 +25,60 @@ The robot detects colored cylinders (red & blue) using a camera feed, computes t
 
 ```
 AI_PickPlace/
-│── open_manipulator_ws/      # OpenManipulator bringup + MoveIt configs
-│── yolo_detection_ws/        # YOLO detection + action client nodes
-│   ├── src/detection/src/
-│   │   ├── detection.py      # Color detection & pose publishing
-│   │   ├── action_call.py    # Pick & place action client
-│   │   ├── yolov8n.pt        # YOLO pretrained weights
-│   │   └── yolo11n.pt
-│── moveit_demo.webm          # Demo video of MoveIt planning
-│── pick_place.webm           # Demo video of autonomous pick & place
+│── open_manipulator_ws/        # OpenManipulator-X workspace
+│   ├── src/open_manipulator_x_bringup
+│   ├── src/open_manipulator_x_moveit_config
+│   ├── src/open_manipulator_x_description
+│   └── src/open_manipulator_x_teleop
+│
+│── yolo_detection_ws/          # YOLO Detection + Integration workspace
+│   ├── src/detection/
+│   │   ├── detection.py        # Color/YOLO detection & pose publishing
+│   │   ├── action_call.py      # Pick & Place sequence node
+│   │   ├── yolov8n.pt          # YOLO model
+│   │   ├── yolo11n.pt
+│   │   ├── config/             # Camera config
+│   │   └── launch/             # Simulation + RSP launch files
+│
+│── moveit_demo.gif             # Demo GIF of MoveIt planning
+│── pick_place.gif              # Demo GIF of pick and place
 │── README.md
 ```
 
 ---
 
-## ⚙️ Requirements
+## 🚀 Installation & Setup
 
-* **Ubuntu 22.04 / ROS 2 Humble**
-* `colcon`, `rviz2`, `gazebo`
-* Packages:
+### 1. Clone the repository
 
-  ```bash
-  sudo apt install ros-humble-moveit ros-humble-control-msgs ros-humble-cv-bridge ros-humble-vision-opencv
-  ```
-* Python deps:
+```bash
+git clone https://github.com/rahulrajak6942/AI_PickPlace.git
+cd AI_PickPlace
+```
 
-  ```bash
-  pip install ultralytics opencv-python
-  ```
+### 2. Build workspaces
 
----
+#### OpenManipulator
 
-## 🚀 Setup
+```bash
+cd open_manipulator_ws
+colcon build --symlink-install
+source install/setup.bash
+```
 
-1. Clone this repo:
+#### YOLO Detection
 
-   ```bash
-   git clone https://github.com/rahulrajak6942/AI_PickPlace.git
-   cd AI_PickPlace
-   ```
-
-2. Build both workspaces:
-
-   ```bash
-   cd open_manipulator_ws
-   colcon build
-   source install/setup.bash
-
-   cd ../yolo_detection_ws
-   colcon build
-   source install/setup.bash
-   ```
+```bash
+cd yolo_detection_ws
+colcon build --symlink-install
+source install/setup.bash
+```
 
 ---
 
-## 🕹️ Running the System
+## ▶️ Running the Simulation
 
-### 1. Launch Gazebo simulation
+### 1. Launch Gazebo with the robot
 
 ```bash
 ros2 launch open_manipulator_x_bringup gazebo.launch.py
@@ -84,66 +90,54 @@ ros2 launch open_manipulator_x_bringup gazebo.launch.py
 ros2 launch open_manipulator_x_moveit_config moveit_core.launch.py
 ```
 
-### 3. Run teleop (optional, for manual testing)
+### 3. Teleoperation (optional)
 
 ```bash
 ros2 run open_manipulator_x_teleop simple_teleop_node
 ```
 
-### 4. Run YOLO detection node
-
-(activate venv if needed)
+### 4. Run detection node (color/YOLO-based)
 
 ```bash
 cd yolo_detection_ws
-source ../venv/bin/activate
+source install/setup.bash
 python3 src/detection/src/detection.py
 ```
-
-This will detect **red and blue cylinders** and publish their poses to `/detected_target_pose`.
 
 ### 5. Run pick & place action node
 
 ```bash
+cd yolo_detection_ws
+source install/setup.bash
 python3 src/detection/src/action_call.py
 ```
 
-This node executes:
-
-1. Open gripper
-2. Move to detected pose
-3. Lower the arm by 7.5 cm
-4. Close gripper (pick)
-
 ---
 
-## 🎥 Demo Videos
+## 🛠️ Workflow (4-Step Pick & Place)
 
-### MoveIt Planning Demo
-[![MoveIt Demo](https://img.shields.io/badge/▶️-Watch%20Video-blue)](moveit_demo.webm)
-
-### Autonomous Pick & Place
-[![Pick Place Demo](https://img.shields.io/badge/▶️-Watch%20Video-green)](pick_place.webm)
-
-
-
+1. **Detect object** (YOLO/color-based detection publishes pose → `/detected_target_pose`)
+2. **Open gripper**
+3. **Move to detected pose**
+4. **Move down by 7.5cm & close gripper**
 
 ---
 
 ## 📌 Notes
 
-* Adjust `gripper position` values in `action_call.py` if the object slips.
-* Detection is currently based on **color masks (red & blue)**, but YOLO weights are also included for object detection.
-* Cooldown of **10s** is applied to avoid continuous triggering.
+* Cylinder size used in simulation: **2 cm diameter**
+* Gripper open/close positions tuned for object size:
+
+  * `0.01` → open
+  * `-0.005 to -0.01` → close (adjust depending on object width to avoid “flying away”)
 
 ---
 
-## ✨ Credits
+## 📧 Author
 
-* **Rahul Rajak** (IIITDM Kanchipuram)
-* Uses **OpenManipulator-X**, **MoveIt2**, **ROS 2 Humble**, and **YOLOv8**
+👤 **Rahul Rajak**
+GitHub: [rahulrajak6942](https://github.com/rahulrajak6942)
 
 ---
 
-Rahul, this README is **assignment-ready** ✅.
-Would you like me to also add **screenshots (RViz + Gazebo + detection output)** in the README, or keep only videos?
+
