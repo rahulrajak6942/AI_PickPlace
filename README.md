@@ -1,5 +1,4 @@
 
----
 
 # 🤖 AI Pick & Place with YOLO + OpenManipulator-X
 
@@ -7,7 +6,7 @@ This project integrates **YOLO-based object detection** with the **OpenManipulat
 
 It was developed as part of my **AI Robotics Integration assignment**.
 
----
+
 
 ## 📹 Demo
 
@@ -19,11 +18,11 @@ It was developed as part of my **AI Robotics Integration assignment**.
 
 <img src="pick_place.gif" width="600"/>
 
----
+
 
 ## 📂 Repository Structure
 
-```
+
 AI_PickPlace/
 │── open_manipulator_ws/        # OpenManipulator-X workspace
 │   ├── src/open_manipulator_x_bringup
@@ -45,7 +44,7 @@ AI_PickPlace/
 │── README.md
 ```
 
----
+
 
 ## 🚀 Installation & Setup
 
@@ -64,7 +63,7 @@ cd AI_PickPlace
 cd open_manipulator_ws
 colcon build --symlink-install
 source install/setup.bash
-```
+
 
 #### YOLO Detection
 
@@ -72,9 +71,9 @@ source install/setup.bash
 cd yolo_detection_ws
 colcon build --symlink-install
 source install/setup.bash
-```
 
----
+
+
 
 ## ▶️ Running the Simulation
 
@@ -112,7 +111,6 @@ source install/setup.bash
 python3 src/detection/src/action_call.py
 ```
 
----
 
 ## 🛠️ Workflow (4-Step Pick & Place)
 
@@ -121,7 +119,7 @@ python3 src/detection/src/action_call.py
 3. **Move to detected pose**
 4. **Move down by 7.5cm & close gripper**
 
----
+
 
 ## 📌 Notes
 
@@ -131,7 +129,7 @@ python3 src/detection/src/action_call.py
   * `0.01` → open
   * `-0.005 to -0.01` → close (adjust depending on object width to avoid “flying away”)
 
----
+
 
 ## 📧 Author
 
