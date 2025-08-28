@@ -120,10 +120,12 @@ This node executes:
 ## 🎥 Demo Videos
 
 ### MoveIt Planning Demo
-<video src="moveit_demo.webm" controls width="600"></video>
+[![MoveIt Demo](https://img.shields.io/badge/▶️-Watch%20Video-blue)](moveit_demo.webm)
 
 ### Autonomous Pick & Place
-<video src="pick_place.webm" controls width="600"></video>
+[![Pick Place Demo](https://img.shields.io/badge/▶️-Watch%20Video-green)](pick_place.webm)
+
+
 
 
 ---
