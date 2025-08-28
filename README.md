@@ -120,12 +120,11 @@ This node executes:
 ## 🎥 Demo Videos
 
 ### MoveIt Planning Demo
-
-![MoveIt Demo](moveit_demo.webm)
+<video src="moveit_demo.webm" controls width="600"></video>
 
 ### Autonomous Pick & Place
+<video src="pick_place.webm" controls width="600"></video>
 
-![Pick Place Demo](pick_place.webm)
 
 ---
 
